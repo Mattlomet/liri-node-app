@@ -21,8 +21,6 @@ inquirer.prompt([{
     fs.appendFile("log.txt", " First Prompt: " + inquirerResponse.action, function (err) {
         if (err) {
             console.log(err);
-        } else {
-            console.log("Content Added!");
         }
     });
 
@@ -45,8 +43,6 @@ inquirer.prompt([{
             fs.appendFile("log.txt", " Song Choice: " + response.songChoice, function (err) {
                 if (err) {
                     console.log(err);
-                } else {
-                    console.log("Content Added!");
                 }
             });
             spotify.search({
@@ -56,10 +52,12 @@ inquirer.prompt([{
                 if (err) {
                     return console.log('Error occurred: ' + err);
                 }
+                var songInfo = data.tracks.items[0]
 
-                var str = JSON.stringify(data.tracks.items[1], null, 2);
-                console.log(str);
-
+                console.log("Song Name - " + songInfo.name);
+                console.log("---------------------------------")
+                console.log("Artist Name(s) - " + (JSON.stringify(songInfo.artists[0].name, null, 2)));
+                console.log("---------------------------------")
             });
         })
     } else if (inquirerResponse.action == "movie-this") {
@@ -72,8 +70,6 @@ inquirer.prompt([{
             fs.appendFile("log.txt", " Movie Choice: " + response.movieChoice, function (err) {
                 if (err) {
                     console.log(err);
-                } else {
-                    console.log("Content Added!");
                 }
             });
             if (response.movieChoice) {
@@ -121,8 +117,13 @@ inquirer.prompt([{
                 if (err) {
                     return console.log('Error occurred: ' + err);
                 }
-                var str = JSON.stringify(data.tracks.items[1], null, 2);
-                console.log(str);
+                var songInfo = data.tracks.items[0]
+
+                console.log("Song Name - " + songInfo.name);
+                console.log("---------------------------------")
+                console.log("Artist Name(s) - " + (JSON.stringify(songInfo.artists[0].name, null, 2)));
+                console.log("---------------------------------")
+
             });
 
         });
