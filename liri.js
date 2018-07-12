@@ -17,7 +17,17 @@ inquirer.prompt([{
     choices: ["my-tweets", "spotify-this-song", "movie-this", "do-what-it-says"],
     name: "action"
 }]).then(function (inquirerResponse) {
+
+    fs.appendFile("log.txt", " First Prompt: " + inquirerResponse.action, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Content Added!");
+        }
+    });
+
     if (inquirerResponse.action == "my-tweets") {
+
         client.get('statuses/user_timeline', function (error, tweets, response) {
             if (!error) {
 
@@ -26,13 +36,19 @@ inquirer.prompt([{
             }
         });
     } else if (inquirerResponse.action == "spotify-this-song") {
-        
+
         inquirer.prompt([{
             type: 'input',
             message: 'what song would you like to see?',
             name: 'songChoice'
         }]).then(function (response) {
-            
+            fs.appendFile("log.txt", " Song Choice: " + response.songChoice, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Content Added!");
+                }
+            });
             spotify.search({
                 type: 'track',
                 query: response.songChoice
@@ -53,12 +69,18 @@ inquirer.prompt([{
             message: 'what movie would you like to see?',
             name: 'movieChoice'
         }]).then(function (response) {
-
+            fs.appendFile("log.txt", " Movie Choice: " + response.movieChoice, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Content Added!");
+                }
+            });
             if (response.movieChoice) {
                 var queryUrl = "https://www.omdbapi.com/?t=" + response.movieChoice + "&y=&plot=short&apikey=trilogy"
 
             } else {
-                    var queryUrl = "https://www.omdbapi.com/?t=Mr+Nobody&y=&plot=short&apikey=trilogy"
+                var queryUrl = "https://www.omdbapi.com/?t=Mr+Nobody&y=&plot=short&apikey=trilogy"
             }
 
             request(queryUrl, function (error, response, body) {
